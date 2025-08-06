@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions
 
 import logging
 
+
 class PageBase():
     def __init__(self, driver):
         self.logger = logging.getLogger(__name__)
@@ -23,6 +24,13 @@ class PageBase():
 
     def get_visible_element(self, locator):
         expected_condition = expected_conditions.visibility_of_element_located
+
+        return self.get_element(
+            expected_condition=expected_condition, locator=locator
+        )
+
+    def get_all_visible_elements(self, locator):
+        expected_condition = expected_conditions.visibility_of_all_elements_located
 
         return self.get_element(
             expected_condition=expected_condition, locator=locator
