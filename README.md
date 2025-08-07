@@ -86,7 +86,7 @@ source execute_test.sh firefox
     ├── requirements.pip         # Dependencies
     └── README.md
 ```
-
+---
 ## CI/CD Integration
 The CI/CD integration concept can be done by using Github Action
 
