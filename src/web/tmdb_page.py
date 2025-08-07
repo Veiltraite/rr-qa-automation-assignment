@@ -148,6 +148,9 @@ class TmdbPage(PageBase):
         discover_button = self.get_visible_element(TmdbLocators.discover_button)
         discover_button.click()
 
+        # Wait for elements to load
+        time.sleep(1)
+
     def click_page_number_button(self, page_number):
         self.logger.info(f"Clicking on page number button: {page_number}")
 

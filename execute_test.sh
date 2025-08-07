@@ -2,6 +2,7 @@
 
 export WEBDRIVER=$1
 export PYTHONPATH=$(pwd)
+export HEADLESS=$2
 
 echo "Running tests with WebDriver: $WEBDRIVER"
 

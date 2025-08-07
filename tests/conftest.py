@@ -1,14 +1,22 @@
 from datetime import datetime
 from utils.driver import ChromeDriver, FirefoxDriver
 
-import os, pytest, pytest_html
+import logging, os, pytest, pytest_html
 
 
 @pytest.fixture
 def driver():
+    logger = logging.getLogger(__name__)
+
     if os.getenv("WEBDRIVER") == "firefox":
+        logger.info("Using Firefox WebDriver")
         webdriver = FirefoxDriver().get_firefox_driver()
-    webdriver = ChromeDriver().get_chrome_driver()
+    else:
+        logger.info("Using Chrome WebDriver")
+        webdriver = ChromeDriver().get_chrome_driver()
+
+    if os.getenv("HEADLESS"):
+        logger.info("Running in headless mode")
 
     yield webdriver
 
