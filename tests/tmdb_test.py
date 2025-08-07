@@ -289,3 +289,88 @@ def test_discover_button(driver):
     # Verify whether the titles that shown in UI based on the API response
     movie_names = movies_based_on_popularity_response.get_movie_names()
     tmdb_page.verify_shown_titles(movie_names)
+
+def test_pagination_on_second_page(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_trend_button()
+
+    tmdb_api = get_tmdb_api()
+    movies_based_on_trend_response = tmdb_api.get_movies_based_on_trend(page=1)
+    movies_based_on_trend_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = movies_based_on_trend_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+    # Click on the second page
+    tmdb_page.click_page_number_button(2)
+
+    movies_based_on_trend_response = tmdb_api.get_movies_based_on_trend(page=2)
+    movies_based_on_trend_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = movies_based_on_trend_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+def test_pagination_on_list_shown_in_ui(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_newest_button()
+
+    # Click on the fourth page
+    tmdb_page.click_page_number_button(4)
+    tmdb_page.verify_page_number_button_shown(4)
+
+    # Click on the fifth page
+    tmdb_page.click_page_number_button(5)
+    tmdb_page.verify_page_number_button_shown(5)
+
+    # Click on the sixth page
+    tmdb_page.click_page_number_button(6)
+    tmdb_page.verify_page_number_button_shown(6)
+
+def test_navigation_of_pagination_page(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_top_rated_button()
+
+    # Click on the fourth page
+    tmdb_page.click_page_number_button(4)
+    tmdb_page.click_page_next_button()
+
+    tmdb_api = get_tmdb_api()
+    get_top_rated_movie_response = tmdb_api.get_top_rated_movie(page=5)
+    get_top_rated_movie_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = get_top_rated_movie_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+    tmdb_page.click_page_previous_button()
+
+    get_top_rated_movie_response = tmdb_api.get_top_rated_movie(page=4)
+    get_top_rated_movie_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = get_top_rated_movie_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+def test_pagination_on_last_page(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    # Click on the fourth page
+    last_page_number = tmdb_page.get_last_page_number()
+    tmdb_page.click_page_number_button(last_page_number)
+
+    tmdb_api = get_tmdb_api()
+    get_newest_movie_response = tmdb_api.get_newest_movie(page=last_page_number)
+    get_newest_movie_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = get_newest_movie_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
