@@ -31,7 +31,7 @@ class TmdbApi(BaseApi):
 
         return GetTvShowResponse(response)
 
-    def get_filtered_movies(self, sort_by, genres, start_date="1900-01-01", end_date="2025-12-31", rating=0, page=1):
+    def get_filtered_movies(self, sort_by, genres=[], start_date="1900-01-01", end_date="2025-12-31", rating=0, page=1):
         endpoint = (
             f"/discover/movie?sort_by={sort_by}.desc&"
             f"release_date.gte={start_date}&release_date.lte={end_date}&"
@@ -45,12 +45,11 @@ class TmdbApi(BaseApi):
 
         endpoint += f"with_genres={genre_ids[:-1]}&"
 
-
         response = self.get_method(endpoint)
 
         return GetMoviesResponse(response)
 
-    def get_filtered_tv_show(self, sort_by, genres, start_date="1900-01-01", end_date="2025-12-31", rating=0, page=1):
+    def get_filtered_tv_show(self, sort_by, genres=[], start_date="1900-01-01", end_date="2025-12-31", rating=0, page=1):
         endpoint = (
             f"/discover/tv?sort_by={sort_by}.desc&"
             f"release_date.gte={start_date}&release_date.lte={end_date}&"
@@ -63,7 +62,6 @@ class TmdbApi(BaseApi):
             genre_ids += f"{genre['id']},"
 
         endpoint += f"with_genres={genre_ids[:-1]}&"
-
 
         response = self.get_method(endpoint)
 
