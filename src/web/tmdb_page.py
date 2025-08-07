@@ -42,7 +42,7 @@ class TmdbPage(PageBase):
         self.logger.info("Verifying shown titles")
 
         # Wait for elements to load
-        time.sleep(1.5)
+        time.sleep(2)
 
         movie_and_tv_title_text = self.get_all_visible_elements(TmdbLocators.movie_and_tv_title_text)
         
