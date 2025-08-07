@@ -1,6 +1,7 @@
 # rr-qa-automation-assignment
 
 Automated UI/API testing using Python and Pytest on [tmdb-discover](https://tmdb-discover.surge.sh/)
+[Test Documentation](https://docs.google.com/spreadsheets/d/1xPbYugagHXsJ2-WE5pcyR0j-B6BveAl1hllePBDrg8M/)
 
 ---
 
