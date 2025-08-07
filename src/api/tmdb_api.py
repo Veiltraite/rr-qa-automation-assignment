@@ -124,8 +124,8 @@ class GetMoviesBasedOnPopularityResponse(BaseResponse):
                 continue
             
             assert popularity_values[-1] >= result["popularity"], (
-                f"Actual result: {popularity_values[-1]} is larger than "
-                f"previous value: {result['popularity']}"
+                f"Previous value: {popularity_values[-1]} is smaller than "
+                f"Next Value: {result['popularity']}"
             )
             popularity_values.append(result["popularity"])
 
@@ -160,8 +160,8 @@ class GetTvShowBasedOnPopularityResponse(BaseResponse):
                 continue
             
             assert popularity_values[-1] >= result["popularity"], (
-                f"Actual result: {popularity_values[-1]} is larger than "
-                f"previous value: {result['popularity']}"
+                f"Previous value: {popularity_values[-1]} is smaller than "
+                f"Next Value: {result['popularity']}"
             )
             popularity_values.append(result["popularity"])
 
@@ -206,8 +206,8 @@ class GetFilteredMoviesResponse(BaseResponse):
                 continue
             
             assert popularity_values[-1] >= result["popularity"], (
-                f"Actual result: {popularity_values[-1]} is larger than "
-                f"previous value: {result['popularity']}"
+                f"Previous value: {popularity_values[-1]} is smaller than "
+                f"Next Value: {result['popularity']}"
             )
             popularity_values.append(result["popularity"])
 
@@ -216,7 +216,7 @@ class GetFilteredMoviesResponse(BaseResponse):
 
         for genre in genres:
             for result in self.response_data["results"]:
-                self.logger.info(f"Assert movie : {result['title']} with {result['genre_ids']} has Genre : {genre['id']}")
+                self.logger.info(f"Assert genre : {result['title']} with {result['genre_ids']} has Genre : {genre['id']}")
 
                 assert genre["id"] in result["genre_ids"], (
                     f"{genre['id']} is not in expected result: {result['genre_ids']}"
@@ -252,8 +252,8 @@ class GetFilteredTvShowResponse(BaseResponse):
                 continue
             
             assert popularity_values[-1] >= result["popularity"], (
-                f"Actual result: {popularity_values[-1]} is larger than "
-                f"previous value: {result['popularity']}"
+                f"Previous value: {popularity_values[-1]} is smaller than "
+                f"Next Value: {result['popularity']}"
             )
             popularity_values.append(result["popularity"])
 
@@ -262,7 +262,7 @@ class GetFilteredTvShowResponse(BaseResponse):
 
         for genre in genres:
             for result in self.response_data["results"]:
-                self.logger.info(f"Assert movie : {result['name']} with {result['genre_ids']} has Genre : {genre['id']}")
+                self.logger.info(f"Assert genre : {result['name']} with {result['genre_ids']} has Genre : {genre['id']}")
 
                 assert genre["id"] in result["genre_ids"], (
                     f"{genre['id']} is not in expected result: {result['genre_ids']}"
