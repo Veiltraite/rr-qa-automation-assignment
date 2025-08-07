@@ -22,14 +22,14 @@ class TmdbApi(BaseApi):
 
         response = self.get_method(endpoint)
 
-        return GetMoviesBasedOnPopularityResponse(response)
+        return GetMoviesResponse(response)
 
     def get_tv_show_based_on_popularity(self, page):
         endpoint = f"/tv/popular?page={page}&"
 
         response = self.get_method(endpoint)
 
-        return GetTvShowBasedOnPopularityResponse(response)
+        return GetTvShowResponse(response)
 
     def get_filtered_movies(self, sort_by, genres, start_date="1900-01-01", end_date="2025-12-31", rating=0, page=1):
         endpoint = (
@@ -48,7 +48,7 @@ class TmdbApi(BaseApi):
 
         response = self.get_method(endpoint)
 
-        return GetFilteredMoviesResponse(response)
+        return GetMoviesResponse(response)
 
     def get_filtered_tv_show(self, sort_by, genres, start_date="1900-01-01", end_date="2025-12-31", rating=0, page=1):
         endpoint = (
@@ -67,49 +67,49 @@ class TmdbApi(BaseApi):
 
         response = self.get_method(endpoint)
 
-        return GetFilteredTvShowResponse(response)
+        return GetTvShowResponse(response)
 
     def get_movies_based_on_trend(self, page=1):
         endpoint = f"/trending/movie/week?page={page}&"
 
         response = self.get_method(endpoint)
 
-        return GetMovieBasedOnTrendResponse(response)
+        return GetMoviesResponse(response)
 
     def get_tv_show_based_on_trend(self, page=1):
         endpoint = f"/trending/tv/week?page={page}&"
 
         response = self.get_method(endpoint)
 
-        return GetTvShowBasedOnTrendResponse(response)
+        return GetTvShowResponse(response)
 
     def get_newest_movie(self, page=1):
         endpoint = f"/movie/now_playing?page={page}&"
 
         response = self.get_method(endpoint)
 
-        return GetNewestMovieResponse(response)
+        return GetMoviesResponse(response)
 
     def get_newest_tv_show(self, page=1):
         endpoint = f"/tv/on_the_air?page={page}&"
 
         response = self.get_method(endpoint)
 
-        return GetNewestTvShowResponse(response)
+        return GetTvShowResponse(response)
     
     def get_top_rated_movie(self, page=1):
         endpoint = f"/movie/top_rated?page={page}&"
 
         response = self.get_method(endpoint)
 
-        return GetTopRatedMovieResponse(response)
+        return GetMoviesResponse(response)
     
     def get_top_rated_tv_show(self, page=1):
         endpoint = f"/tv/top_rated?page={page}&"
 
         response = self.get_method(endpoint)
 
-        return GetTopRatedTvShowResponse(response)
+        return GetTvShowResponse(response)
 
 
 class GetMovieGenreListResponse(BaseResponse):
@@ -146,47 +146,7 @@ class GetTvShowGenreListResponse(BaseResponse):
         return random_genres
 
 
-class GetMoviesBasedOnPopularityResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_movie_names(self):
-        movie_names = []
-
-        for result in self.response_data["results"]:
-            movie_names.append(result["title"])
-
-        self.logger.info(f"Movie names : {movie_names}")
-
-        return movie_names
-
-
-class GetTvShowBasedOnPopularityResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_tv_show_names(self):
-        tv_show_names = []
-
-        for result in self.response_data["results"]:
-            tv_show_names.append(result["name"])
-
-        self.logger.info(f"Tv show names : {tv_show_names}")
-
-        return tv_show_names
-
-
-class GetFilteredMoviesResponse(BaseResponse):
+class GetMoviesResponse(BaseResponse):
     def assert_response_status_code(self, status_code):
         self.logger.info(f"Response status_code : {self.response.status_code}")
 
@@ -216,8 +176,8 @@ class GetFilteredMoviesResponse(BaseResponse):
                     f"{genre['id']} is not in expected result: {result['genre_ids']}"
                 )
 
-    
-class GetFilteredTvShowResponse(BaseResponse):
+
+class GetTvShowResponse(BaseResponse):
     def assert_response_status_code(self, status_code):
         self.logger.info(f"Response status_code : {self.response.status_code}")
 
@@ -246,122 +206,3 @@ class GetFilteredTvShowResponse(BaseResponse):
                 assert genre["id"] in result["genre_ids"], (
                     f"{genre['id']} is not in expected result: {result['genre_ids']}"
                 )
-
-
-class GetMovieBasedOnTrendResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_movie_names(self):
-        movie_names = []
-
-        for result in self.response_data["results"]:
-            movie_names.append(result["title"])
-
-        self.logger.info(f"Movie names : {movie_names}")
-
-        return movie_names
-
-
-class GetTvShowBasedOnTrendResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_tv_show_names(self):
-        tv_show_names = []
-
-        for result in self.response_data["results"]:
-            tv_show_names.append(result["name"])
-
-        self.logger.info(f"Tv show names : {tv_show_names}")
-
-        return tv_show_names
-
-
-class GetNewestMovieResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_movie_names(self):
-        movie_names = []
-
-        for result in self.response_data["results"]:
-            movie_names.append(result["title"])
-
-        self.logger.info(f"Movie names : {movie_names}")
-
-        return movie_names
-
-
-class GetNewestTvShowResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_tv_show_names(self):
-        tv_show_names = []
-
-        for result in self.response_data["results"]:
-            tv_show_names.append(result["name"])
-
-        self.logger.info(f"Tv show names : {tv_show_names}")
-
-        return tv_show_names
-
-
-class GetTopRatedMovieResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_movie_names(self):
-        movie_names = []
-
-        for result in self.response_data["results"]:
-            movie_names.append(result["title"])
-
-        self.logger.info(f"Movie names : {movie_names}")
-
-        return movie_names
-
-class GetTopRatedTvShowResponse(BaseResponse):
-    def assert_response_status_code(self, status_code):
-        self.logger.info(f"Response status_code : {self.response.status_code}")
-
-        assert self.response.status_code == status_code, (
-            f"Actual result: {self.response.status_code}, "
-            f"is not equal to expected result: {status_code}"
-        )
-
-    def get_tv_show_names(self):
-        tv_show_names = []
-
-        for result in self.response_data["results"]:
-            tv_show_names.append(result["name"])
-
-        self.logger.info(f"Tv show names : {tv_show_names}")
-
-        return tv_show_names
