@@ -1,6 +1,6 @@
 from src.web.base import PageBase
 
-import random
+import random, time
 
 
 class TmdbLocators:
@@ -12,6 +12,8 @@ class TmdbLocators:
     trend_button = "//a[@href='/trend']"
     newest_button = "//a[@href='/new']"
     top_rated_button = "//a[@href='/top']"
+    search_input = "//input[@name='search']"
+    discover_button = "//p[text()='Discover']"
 
 
 class TmdbPage(PageBase):
@@ -111,3 +113,29 @@ class TmdbPage(PageBase):
 
         top_rated_button = self.get_visible_element(TmdbLocators.top_rated_button)
         top_rated_button.click()
+
+    def fill_search_input(self, title):
+        self.logger.info(f"Filling search input with title: {title}")
+
+        search_input = self.get_visible_element(TmdbLocators.search_input)
+        search_input.clear()
+        search_input.send_keys(title)
+
+        # Wait for search results to load
+        time.sleep(3)
+
+    def verify_shown_titles_contains(self, title):
+        self.logger.info(f"Verifying the shown titles contains {title}")
+
+        text_elements = self.get_all_visible_elements(TmdbLocators.movie_and_tv_title_text)
+
+        for text_element in text_elements:
+            self.logger.info(f"Assert {title} in {text_element.text}")
+
+            assert title in text_element.text, f"'{title}' not found in {text_element.text}"
+
+    def click_discover_button(self):
+        self.logger.info("Clicking on the discover button")
+
+        discover_button = self.get_visible_element(TmdbLocators.discover_button)
+        discover_button.click()

@@ -111,6 +111,13 @@ class TmdbApi(BaseApi):
 
         return GetTvShowResponse(response)
 
+    def get_title_by_search(self, title, page=1):
+        endpoint = f"/search/movie?query={title}&page=1&page={page}&"
+
+        response = self.get_method(endpoint)
+
+        return GetMoviesResponse(response)
+
 
 class GetMovieGenreListResponse(BaseResponse):
     def assert_response_status_code(self, status_code):
