@@ -74,6 +74,17 @@ source execute_test.sh firefox headless
 
 ---
 
+## Test Report
+```
+    rr-qa-automation-assignment/
+    ├── reports/
+    │     └── test_results.html                # Auto generated test report every succesful test run
+    └── screenshots/
+          └── screenshot_yyyymmdd_HHMMSS.png   # Screenshot will be generated for each of the test cases and attached on test report
+```
+
+---
+
 ## Project Structure
 ```
     rr-qa-automation-assignment/
