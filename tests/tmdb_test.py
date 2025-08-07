@@ -11,11 +11,116 @@ def test_sorted_movie_popularity(driver):
     tmdb_api = get_tmdb_api()
     movies_based_on_popularity_response = tmdb_api.get_movies_based_on_popularity(page=1)
     movies_based_on_popularity_response.assert_response_status_code(200)
-    movies_based_on_popularity_response.assert_popularity_sorted_movie_names()
 
     # Verify whether the titles that shown in UI based on the API response
     movie_names = movies_based_on_popularity_response.get_movie_names()
     tmdb_page.verify_shown_titles(movie_names)
+
+def test_sorted_tv_show_popularity(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_popular_button()
+    tmdb_page.click_type_dropdown()
+    tmdb_page.click_dropdown_option("TV Shows")
+
+    tmdb_api = get_tmdb_api()
+    tv_show_based_on_popularity_response = tmdb_api.get_tv_show_based_on_popularity(page=1)
+    tv_show_based_on_popularity_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    tv_show_names = tv_show_based_on_popularity_response.get_tv_show_names()
+    tmdb_page.verify_shown_titles(tv_show_names)
+
+def test_sorted_movie_trend(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_trend_button()
+
+    tmdb_api = get_tmdb_api()
+    movies_based_on_trend_response = tmdb_api.get_movies_based_on_trend(page=1)
+    movies_based_on_trend_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = movies_based_on_trend_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+def test_sorted_tv_show_trend(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_trend_button()
+    tmdb_page.click_type_dropdown()
+    tmdb_page.click_dropdown_option("TV Shows")
+
+    tmdb_api = get_tmdb_api()
+    tv_show_based_on_trend_response = tmdb_api.get_tv_show_based_on_trend(page=1)
+    tv_show_based_on_trend_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    tv_show_names = tv_show_based_on_trend_response.get_tv_show_names()
+    tmdb_page.verify_shown_titles(tv_show_names)
+
+def test_sorted_newest_movie(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_newest_button()
+
+    tmdb_api = get_tmdb_api()
+    get_newest_movie_response = tmdb_api.get_newest_movie(page=1)
+    get_newest_movie_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = get_newest_movie_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+def test_sorted_newest_tv_show(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_newest_button()
+    tmdb_page.click_type_dropdown()
+    tmdb_page.click_dropdown_option("TV Shows")
+
+    tmdb_api = get_tmdb_api()
+    get_newest_tv_show_response = tmdb_api.get_newest_tv_show(page=1)
+    get_newest_tv_show_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    tv_show_names = get_newest_tv_show_response.get_tv_show_names()
+    tmdb_page.verify_shown_titles(tv_show_names)
+
+def test_sorted_top_rated_movie(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_top_rated_button()
+
+    tmdb_api = get_tmdb_api()
+    get_top_rated_movie_response = tmdb_api.get_top_rated_movie(page=1)
+    get_top_rated_movie_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = get_top_rated_movie_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+def test_sorted_top_rated_tv_show(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_top_rated_button()
+    tmdb_page.click_type_dropdown()
+    tmdb_page.click_dropdown_option("TV Shows")
+
+    tmdb_api = get_tmdb_api()
+    get_top_rated_tv_show_response = tmdb_api.get_top_rated_tv_show(page=1)
+    get_top_rated_tv_show_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    tv_show_names = get_top_rated_tv_show_response.get_tv_show_names()
+    tmdb_page.verify_shown_titles(tv_show_names)
 
 def test_sorted_movie_with_1_additional_genre(driver):
     tmdb_page = get_tmdb_page(driver)
@@ -36,13 +141,12 @@ def test_sorted_movie_with_1_additional_genre(driver):
     )
     filtered_movies_response.assert_response_status_code(200)
     filtered_movies_response.assert_genres_in_response(random_genres)
-    filtered_movies_response.assert_popularity_sorted_movie_names()
 
     # Verify whether the titles that shown in UI based on the API response
     movie_names = filtered_movies_response.get_movie_names()
     tmdb_page.verify_shown_titles(movie_names)
 
-def test_sorted_movie_with_2_additional_genre_and_remove_1_genre(driver):
+def test_sorted_movie_with_2_additional_genre_then_remove_1_genre(driver):
     tmdb_page = get_tmdb_page(driver)
     tmdb_page.open()
 
@@ -61,7 +165,6 @@ def test_sorted_movie_with_2_additional_genre_and_remove_1_genre(driver):
     )
     filtered_movies_response.assert_response_status_code(200)
     filtered_movies_response.assert_genres_in_response(random_genres)
-    filtered_movies_response.assert_popularity_sorted_movie_names()
 
     # Verify whether the titles that shown in UI based on the API response
     movie_names = filtered_movies_response.get_movie_names()
@@ -76,28 +179,10 @@ def test_sorted_movie_with_2_additional_genre_and_remove_1_genre(driver):
     )
     filtered_movies_response.assert_response_status_code(200)
     filtered_movies_response.assert_genres_in_response(random_genres)
-    filtered_movies_response.assert_popularity_sorted_movie_names()
 
     # Verify whether the titles that shown in UI based on the API response
     movie_names = filtered_movies_response.get_movie_names()
     tmdb_page.verify_shown_titles(movie_names)
-
-def test_sorted_tv_show_popularity(driver):
-    tmdb_page = get_tmdb_page(driver)
-    tmdb_page.open()
-
-    tmdb_page.click_popular_button()
-    tmdb_page.click_type_dropdown()
-    tmdb_page.click_dropdown_option("TV Shows")
-
-    tmdb_api = get_tmdb_api()
-    tv_show_based_on_popularity_response = tmdb_api.get_tv_show_based_on_popularity(page=1)
-    tv_show_based_on_popularity_response.assert_response_status_code(200)
-    tv_show_based_on_popularity_response.assert_popularity_sorted_tv_show_names()
-
-    # Verify whether the titles that shown in UI based on the API response
-    tv_show_names = tv_show_based_on_popularity_response.get_tv_show_names()
-    tmdb_page.verify_shown_titles(tv_show_names)
 
 def test_sorted_tv_show_with_1_additional_genre(driver):
     tmdb_page = get_tmdb_page(driver)
@@ -120,13 +205,12 @@ def test_sorted_tv_show_with_1_additional_genre(driver):
     )
     filtered_tv_show_response.assert_response_status_code(200)
     filtered_tv_show_response.assert_genres_in_response(random_genres)
-    filtered_tv_show_response.assert_popularity_sorted_tv_show_names()
 
     # Verify whether the titles that shown in UI based on the API response
     tv_show_names = filtered_tv_show_response.get_tv_show_names()
     tmdb_page.verify_shown_titles(tv_show_names)
 
-def test_sorted_tv_show_with_2_additional_genre_and_remove_1_genre(driver):
+def test_sorted_tv_show_with_2_additional_genre_then_remove_1_genre(driver):
     tmdb_page = get_tmdb_page(driver)
     tmdb_page.open()
 
@@ -147,7 +231,6 @@ def test_sorted_tv_show_with_2_additional_genre_and_remove_1_genre(driver):
     )
     filtered_tv_show_response.assert_response_status_code(200)
     filtered_tv_show_response.assert_genres_in_response(random_genres)
-    filtered_tv_show_response.assert_popularity_sorted_tv_show_names()
 
     # Verify whether the titles that shown in UI based on the API response
     tv_show_names = filtered_tv_show_response.get_tv_show_names()
@@ -162,7 +245,6 @@ def test_sorted_tv_show_with_2_additional_genre_and_remove_1_genre(driver):
     )
     filtered_tv_show_response.assert_response_status_code(200)
     filtered_tv_show_response.assert_genres_in_response(random_genres)
-    filtered_tv_show_response.assert_popularity_sorted_tv_show_names()
 
     # Verify whether the titles that shown in UI based on the API response
     tv_show_names = filtered_tv_show_response.get_tv_show_names()

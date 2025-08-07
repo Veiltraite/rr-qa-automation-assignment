@@ -9,6 +9,9 @@ class TmdbLocators:
     dropdown = "//div[contains(@class,'css-2b097c-container')]//div[contains(@class,'css-1wy0on6')]"
     dropdown_option = "//div[contains(@id,'react-select') and text()='{value}']"
     remove_genre_button = "//div[contains(@class,'css-1rhbuit-multiValue')]/div[text()='{value}']/following-sibling::div"
+    trend_button = "//a[@href='/trend']"
+    newest_button = "//a[@href='/new']"
+    top_rated_button = "//a[@href='/top']"
 
 
 class TmdbPage(PageBase):
@@ -90,3 +93,21 @@ class TmdbPage(PageBase):
             remove_genre_button.click()
 
             self.get_all_visible_elements(TmdbLocators.movie_and_tv_title_text)
+
+    def click_trend_button(self):
+        self.logger.info("Clicking on the trend button")
+
+        trend_button = self.get_visible_element(TmdbLocators.trend_button)
+        trend_button.click()
+
+    def click_newest_button(self):
+        self.logger.info("Clicking on the newest button")
+
+        newest_button = self.get_visible_element(TmdbLocators.newest_button)
+        newest_button.click()
+    
+    def click_top_rated_button(self):
+        self.logger.info("Clicking on the top rated button")
+
+        top_rated_button = self.get_visible_element(TmdbLocators.top_rated_button)
+        top_rated_button.click()
