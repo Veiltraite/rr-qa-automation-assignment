@@ -97,10 +97,11 @@ The CI/CD integration concept can be done by using Github Action
 2. configure the run condition everytime there is PR review and new changes merged into master branch.
 3. configure the job steps to run code format checker such as black / pylint
 4. configure the next job steps by following the [Setup](https://github.com/Veiltraite/rr-qa-automation-assignment?tab=readme-ov-file#setup) and [Run Test](https://github.com/Veiltraite/rr-qa-automation-assignment?tab=readme-ov-file#run-tests) flow.
-5. PR can be merged once all of the code format checker and test automation run are done
+5. if the CI is being run in cloud server / docker environment, please set the driver to Headless.
+6. PR can be merged once all of the code format checker and test automation run are done
 
 
-*The CD integration:*
+*CD integration:*
 1. on other project / repository, create new yml file under .github/workflows folder.
 2. configure the run condition everytime there is changes being merged in branch that being used in testing environment.
 3. would not recommend to run test automation on production / live environment, it might affecting user experience and tempering with real customer data.
