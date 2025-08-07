@@ -434,3 +434,44 @@ def test_tv_show_year_filter(driver):
         start_year=2000,
         end_year=2020
     )
+
+def test_movie_year_filter(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_top_rated_button()
+
+    tmdb_page.click_rating_star(3.5)
+
+    tmdb_api = get_tmdb_api()
+    filtered_movies_response = tmdb_api.get_filtered_movies(
+        sort_by="vote_average",
+        rating=3.5
+    )
+    filtered_movies_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    movie_names = filtered_movies_response.get_movie_names()
+    tmdb_page.verify_shown_titles(movie_names)
+
+def test_tv_show_year_filter(driver):
+    tmdb_page = get_tmdb_page(driver)
+    tmdb_page.open()
+
+    tmdb_page.click_top_rated_button()
+    tmdb_page.click_type_dropdown()
+    tmdb_page.click_dropdown_option("TV Shows")
+
+    tmdb_page.click_rating_star(2)
+
+    tmdb_api = get_tmdb_api()
+    filtered_tv_show_response = tmdb_api.get_filtered_tv_show(
+        sort_by="vote_average",
+        rating=2
+    )
+    filtered_tv_show_response.assert_response_status_code(200)
+
+    # Verify whether the titles that shown in UI based on the API response
+    tv_show_names = filtered_tv_show_response.get_tv_show_names()
+
+    tmdb_page.verify_shown_titles(tv_show_names)

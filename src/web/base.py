@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.action_chains import ActionChains
 
 import logging
 
@@ -35,3 +36,9 @@ class PageBase():
         return self.get_element(
             expected_condition=expected_condition, locator=locator
         )
+
+    def click_element_by_location(self, x, y):
+        self.logger.info(f"Clicking element by location x:{x}, y:{y}")
+
+        actions = ActionChains(self.driver)
+        actions.move_by_offset(x, y).click().perform()

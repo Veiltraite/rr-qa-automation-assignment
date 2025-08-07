@@ -19,6 +19,7 @@ class TmdbLocators:
     page_next_button = "//a[@aria-label='Next page']"
     page_previous_button = "//a[@aria-label='Previous page']"
     movie_and_tv_title_detail = "//div[contains(@class, 'flex')]/p[contains(@class, 'text-sm')]"
+    rating_star = "//li[contains(@class, 'rc-rate-star')]/div"
 
 
 class TmdbPage(PageBase):
@@ -217,11 +218,31 @@ class TmdbPage(PageBase):
     def click_start_year_dropdown(self):
         self.logger.info("Clicking on start year dropdown")
 
-        type_dropdown = self.get_all_visible_elements(TmdbLocators.dropdown)
-        type_dropdown[2].click()
+        start_year_dropdown = self.get_all_visible_elements(TmdbLocators.dropdown)
+        start_year_dropdown[2].click()
 
     def click_end_year_dropdown(self):
         self.logger.info("Clicking on end year dropdown")
 
-        type_dropdown = self.get_all_visible_elements(TmdbLocators.dropdown)
-        type_dropdown[3].click()
+        end_year_dropdown = self.get_all_visible_elements(TmdbLocators.dropdown)
+        end_year_dropdown[3].click()
+
+    def click_rating_star(self, rating):
+        self.logger.info(f"Clicking on rating star: {rating}")
+
+        rating_stars = self.get_all_visible_elements(TmdbLocators.rating_star)
+
+        floor_rating = int(rating)
+        first_star_location = rating_stars[floor_rating].location
+        first_star_size = rating_stars[floor_rating].size
+
+        if (rating / 0.5) % 2 == 0:
+            self.click_element_by_location(
+                x=first_star_location["x"] - (first_star_size["width"]),
+                y=first_star_location["y"] + first_star_size["height"] / 2
+            )
+        else:
+            self.click_element_by_location(
+                x=first_star_location["x"] + (first_star_size["width"] / 4),
+                y=first_star_location["y"] + first_star_size["height"] / 2
+            )
