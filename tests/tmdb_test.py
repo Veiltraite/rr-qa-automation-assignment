@@ -435,7 +435,7 @@ def test_tv_show_year_filter(driver):
         end_year=2020
     )
 
-def test_movie_year_filter(driver):
+def test_movie_rating_filter(driver):
     tmdb_page = get_tmdb_page(driver)
     tmdb_page.open()
 
@@ -454,7 +454,7 @@ def test_movie_year_filter(driver):
     movie_names = filtered_movies_response.get_movie_names()
     tmdb_page.verify_shown_titles(movie_names)
 
-def test_tv_show_year_filter(driver):
+def test_tv_show_rating_filter(driver):
     tmdb_page = get_tmdb_page(driver)
     tmdb_page.open()
 
