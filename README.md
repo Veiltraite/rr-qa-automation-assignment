@@ -63,6 +63,14 @@ source execute_test.sh chrome
 ```
 source execute_test.sh firefox
 ```
+*To use headless chrome:*
+```
+source execute_test.sh chrome headless
+```
+*To use headless firefox:*
+```
+source execute_test.sh firefox headless
+```
 
 ---
 
